@@ -11,7 +11,7 @@ var Box = React.createClass({displayName: "Box",
 	getInitialState: function(){
 		return {
 			period: 10000,
-			ratesPairs: [ 'usd/eur', ]
+			ratesPairs: [ 'EUR/USD']
 		};
 	},
 	componentDidMount: function(){
@@ -26,8 +26,12 @@ var Box = React.createClass({displayName: "Box",
 	},
 	addInRatesPairs:function(name){
 		var pairs = this.state.ratesPairs;
-		pairs = pairs.concat([name]);
-		this.setState({ratesPairs: pairs});
+		if(pairs.indexOf(name)<0){
+			pairs = pairs.concat([name]);
+			this.setState({ratesPairs: pairs});
+		}else{
+			alert('This pair is already in the list');
+		}
 	},
 	deleteFromRatesPairs:function(name){
 		var pairs = this.state.ratesPairs,
@@ -148,7 +152,8 @@ var RatesList = React.createClass({displayName: "RatesList",
 module.exports = RatesList;
 },{"./rateslistitem":5}],5:[function(require,module,exports){
 var RatesListItem = React.createClass({displayName: "RatesListItem",
-	handleClick:function(){
+	handleClick:function(e){
+		$(e.target).closest('tr').hide();
 		this.props.onRemoveClick(this.props.name);
 	},
 	render: function(){
@@ -168,20 +173,22 @@ module.exports = RatesListItem;
 
 var SymbolsListDefaultItem = require('./symbolslistdefaultitem');
 
+var SymbolsListLastItem = require('./symbolslistlastitem');
+
 var SymbolsList = React.createClass({displayName: "SymbolsList",
 	getInitialState: function(){
 		return{
 			defaultSymbols: [
 				{
-					name:'usd/eur',
+					name:'EUR/USD',
 					enabled:false
 				},
 				{
-					name:'usd/rub',
+					name:'USD/RUB',
 					enabled:false
 				},
 				{
-					name:'eur/rub',
+					name:'EUR/RUB',
 					enabled:false
 				}
 			]
@@ -212,10 +219,11 @@ var SymbolsList = React.createClass({displayName: "SymbolsList",
 	handleSymbolClick:function(name){
 		var defaultSymbols = this.state.defaultSymbols,
 			i = 0;
+
+		this.props.onSymbolClick(name);
 		for(;i<defaultSymbols.length;i++){
 			if(defaultSymbols[i].name===name){
-				defaultSymbols[i].enabled = !defaultSymbols[i].enabled;
-				this.props.onSymbolClick(name);
+				defaultSymbols[i].enabled = true;
 				break;
 			}
 		}
@@ -229,6 +237,7 @@ var SymbolsList = React.createClass({displayName: "SymbolsList",
 		for(;i<defaultSymbols.length;i++){
 			symbols.push(React.createElement(SymbolsListDefaultItem, {name: defaultSymbols[i].name, enabled: defaultSymbols[i].enabled, onSymbolClick: this.handleSymbolClick}))
 		}
+		symbols.push(React.createElement(SymbolsListLastItem, {enabled: false, onSymbolClick: this.handleSymbolClick}))
 		
 		return(
 			React.createElement("div", {className: "symbolsList"}, 
@@ -242,7 +251,7 @@ var SymbolsList = React.createClass({displayName: "SymbolsList",
 });
 
 module.exports = SymbolsList;
-},{"./symbolslistdefaultitem":7}],7:[function(require,module,exports){
+},{"./symbolslistdefaultitem":7,"./symbolslistlastitem":8}],7:[function(require,module,exports){
 var SymbolsListDefaultItem = React.createClass({displayName: "SymbolsListDefaultItem",
 	handleClick:function(){
 		this.props.onSymbolClick(this.props.name);
@@ -258,4 +267,36 @@ var SymbolsListDefaultItem = React.createClass({displayName: "SymbolsListDefault
 });
 
 module.exports = SymbolsListDefaultItem;
+},{}],8:[function(require,module,exports){
+var SymbolsListLastItem = React.createClass({displayName: "SymbolsListLastItem",
+	handleClick:function(e){
+		var $this = $(e.target),
+			$selects = $this.closest('tr').find('select'),
+			name=$selects.eq(0).val()+'/'+$selects.eq(1).val();
+		this.props.onSymbolClick(name);
+	},
+	render: function(){
+		return(
+			React.createElement("tr", {className: "symbolItem"}, 
+				React.createElement("td", null, 
+					React.createElement("select", null, 
+						React.createElement("option", {selected: true}, "EUR"), 
+						React.createElement("option", null, "USD"), 
+						React.createElement("option", null, "GBP"), 
+						React.createElement("option", null, "RUB")
+					), 
+					React.createElement("select", null, 
+						React.createElement("option", null, "EUR"), 
+						React.createElement("option", {selected: true}, "USD"), 
+						React.createElement("option", null, "GBP"), 
+						React.createElement("option", null, "RUB")
+					)
+				), 
+				React.createElement("td", null, !this.props.enabled ? React.createElement("span", {onClick: this.handleClick}, "add"): '')
+			)
+		)
+	}
+});
+
+module.exports = SymbolsListLastItem;
 },{}]},{},[1]);

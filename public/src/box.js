@@ -6,7 +6,7 @@ var Box = React.createClass({
 	getInitialState: function(){
 		return {
 			period: 10000,
-			ratesPairs: [ 'usd/eur', ]
+			ratesPairs: [ 'EUR/USD']
 		};
 	},
 	componentDidMount: function(){
@@ -21,8 +21,12 @@ var Box = React.createClass({
 	},
 	addInRatesPairs:function(name){
 		var pairs = this.state.ratesPairs;
-		pairs = pairs.concat([name]);
-		this.setState({ratesPairs: pairs});
+		if(pairs.indexOf(name)<0){
+			pairs = pairs.concat([name]);
+			this.setState({ratesPairs: pairs});
+		}else{
+			alert('This pair is already in the list');
+		}
 	},
 	deleteFromRatesPairs:function(name){
 		var pairs = this.state.ratesPairs,

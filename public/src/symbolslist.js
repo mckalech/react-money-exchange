@@ -1,20 +1,22 @@
 
 var SymbolsListDefaultItem = require('./symbolslistdefaultitem');
 
+var SymbolsListLastItem = require('./symbolslistlastitem');
+
 var SymbolsList = React.createClass({
 	getInitialState: function(){
 		return{
 			defaultSymbols: [
 				{
-					name:'usd/eur',
+					name:'EUR/USD',
 					enabled:false
 				},
 				{
-					name:'usd/rub',
+					name:'USD/RUB',
 					enabled:false
 				},
 				{
-					name:'eur/rub',
+					name:'EUR/RUB',
 					enabled:false
 				}
 			]
@@ -45,10 +47,11 @@ var SymbolsList = React.createClass({
 	handleSymbolClick:function(name){
 		var defaultSymbols = this.state.defaultSymbols,
 			i = 0;
+
+		this.props.onSymbolClick(name);
 		for(;i<defaultSymbols.length;i++){
 			if(defaultSymbols[i].name===name){
-				defaultSymbols[i].enabled = !defaultSymbols[i].enabled;
-				this.props.onSymbolClick(name);
+				defaultSymbols[i].enabled = true;
 				break;
 			}
 		}
@@ -62,6 +65,7 @@ var SymbolsList = React.createClass({
 		for(;i<defaultSymbols.length;i++){
 			symbols.push(<SymbolsListDefaultItem name={defaultSymbols[i].name} enabled={defaultSymbols[i].enabled} onSymbolClick={this.handleSymbolClick}/>)
 		}
+		symbols.push(<SymbolsListLastItem enabled={false} onSymbolClick={this.handleSymbolClick}/>)
 		
 		return(
 			<div className="symbolsList">
