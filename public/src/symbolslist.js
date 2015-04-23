@@ -1,5 +1,5 @@
 
-var SymbolsListItem = require('./symbolslistitem');
+var SymbolsListDefaultItem = require('./symbolslistdefaultitem');
 
 var SymbolsList = React.createClass({
 	getInitialState: function(){
@@ -48,7 +48,7 @@ var SymbolsList = React.createClass({
 		for(;i<defaultSymbols.length;i++){
 			if(defaultSymbols[i].name===name){
 				defaultSymbols[i].enabled = !defaultSymbols[i].enabled;
-				this.props.onSymbolClick(name, defaultSymbols[i].enabled);
+				this.props.onSymbolClick(name);
 				break;
 			}
 		}
@@ -60,15 +60,15 @@ var SymbolsList = React.createClass({
 			defaultSymbols = this.state.defaultSymbols;
 
 		for(;i<defaultSymbols.length;i++){
-			symbols.push(<SymbolsListItem name={defaultSymbols[i].name} enabled={defaultSymbols[i].enabled} onSymbolClick={this.handleSymbolClick}/>)
+			symbols.push(<SymbolsListDefaultItem name={defaultSymbols[i].name} enabled={defaultSymbols[i].enabled} onSymbolClick={this.handleSymbolClick}/>)
 		}
 		
 		return(
 			<div className="symbolsList">
 				<h3>Symbols</h3>
-				<ul>
+				<table>
 					{symbols}
-				</ul>
+				</table>
 			</div>
 		);
 	}

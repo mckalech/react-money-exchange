@@ -5,7 +5,7 @@ var ChangeTime = require('./changetime');
 var Box = React.createClass({
 	getInitialState: function(){
 		return {
-			period: 4000,
+			period: 10000,
 			ratesPairs: [ 'usd/eur', ]
 		};
 	},
@@ -36,10 +36,11 @@ var Box = React.createClass({
 	render : function(){
 		return (
 			<div className="exchangeBox">
-				<h1>Exchange</h1>
+				<h1>Realtime Exchange Rates</h1>
 				<ChangeTime onPeriodChange={this.handlePeriodChange}/>
-				<SymbolsList ratesPairs={this.state.ratesPairs} onSymbolClick={this.handleSymbolClick} />
 				<RatesList period={this.state.period} ratesPairs={this.state.ratesPairs} onRemoveClick={this.handleRemoveClick}/>
+				<SymbolsList ratesPairs={this.state.ratesPairs} onSymbolClick={this.handleSymbolClick} />
+				<div className="clear"></div>
 			</div>
 		);
 	}

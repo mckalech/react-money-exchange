@@ -10,10 +10,24 @@ module.exports = function(grunt) {
 				dest: 'public/build/app.js'
 			}
 		},
+		compass: {
+			dist: {
+				options: {
+					basePath:'public/styles/',
+					sassDir:'scss',
+					cssDir:'css',
+					outputStyle:'compressed'
+				}
+			}
+		},
 		watch: {
 			browserify: {
-				files: ['public/src/**/*.js'], // следить за изменениями любых файлов с разширениями .scss
-				tasks: ['browserify'] // и запускать такую задачу при их изменении
+				files: ['public/src/**/*.js'], 
+				tasks: ['browserify'] 
+			},
+			compass: {
+				files: ['public/styles/**/*.scss'], 
+				tasks: ['compass']
 			}
 		}
  
@@ -22,7 +36,7 @@ module.exports = function(grunt) {
 	//погружаем все необходимые модули
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-browserify')
-	//grunt.loadNpmTasks('grunt-react');
+	grunt.loadNpmTasks('grunt-contrib-compass')
 	//забиваем в задачу по умолчению все наши задачи
-	grunt.registerTask('default', ['browserify','watch']);
+	grunt.registerTask('default', ['browserify','compass', 'watch']);
 };

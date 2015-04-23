@@ -10,7 +10,7 @@ var ChangeTime = require('./changetime');
 var Box = React.createClass({displayName: "Box",
 	getInitialState: function(){
 		return {
-			period: 4000,
+			period: 10000,
 			ratesPairs: [ 'usd/eur', ]
 		};
 	},
@@ -41,10 +41,11 @@ var Box = React.createClass({displayName: "Box",
 	render : function(){
 		return (
 			React.createElement("div", {className: "exchangeBox"}, 
-				React.createElement("h1", null, "Exchange"), 
+				React.createElement("h1", null, "Realtime Exchange Rates"), 
 				React.createElement(ChangeTime, {onPeriodChange: this.handlePeriodChange}), 
+				React.createElement(RatesList, {period: this.state.period, ratesPairs: this.state.ratesPairs, onRemoveClick: this.handleRemoveClick}), 
 				React.createElement(SymbolsList, {ratesPairs: this.state.ratesPairs, onSymbolClick: this.handleSymbolClick}), 
-				React.createElement(RatesList, {period: this.state.period, ratesPairs: this.state.ratesPairs, onRemoveClick: this.handleRemoveClick})
+				React.createElement("div", {className: "clear"})
 			)
 		);
 	}
@@ -64,7 +65,8 @@ var ChangeTime = React.createClass({displayName: "ChangeTime",
 					React.createElement("option", {value: "1000"}, "1 sec"), 
 					React.createElement("option", {value: "2000"}, "2 sec"), 
 					React.createElement("option", {value: "3000"}, "3 sec"), 
-					React.createElement("option", {selected: true, value: "4000"}, "4 sec")
+					React.createElement("option", {value: "4000"}, "4 sec"), 
+					React.createElement("option", {selected: true, value: "10000"}, "10 sec")
 				)
 			)
 		);
@@ -132,7 +134,10 @@ var RatesList = React.createClass({displayName: "RatesList",
 		return(
 			React.createElement("div", {className: "ratesList"}, 
 				React.createElement("h3", null, "Rates"), 
-				React.createElement("ul", null, 
+				React.createElement("table", null, 
+					React.createElement("tr", null, 
+						React.createElement("th", null, "Symbol"), React.createElement("th", null, "Ask"), React.createElement("th", null, "Bid"), React.createElement("th", null)
+					), 
 					rates
 				)
 			)
@@ -148,9 +153,11 @@ var RatesListItem = React.createClass({displayName: "RatesListItem",
 	},
 	render: function(){
 		return(
-			React.createElement("li", {className: "rateItem"}, 
-				React.createElement("span", null, this.props.name), " ", React.createElement("span", null, this.props.ask), " ", React.createElement("span", null, this.props.bid, " "), 
-				React.createElement("span", {onClick: this.handleClick}, "remove")
+			React.createElement("tr", {className: "rateItem"}, 
+				React.createElement("td", null, this.props.name), 
+				React.createElement("td", null, this.props.ask), 
+				React.createElement("td", null, this.props.bid), 
+				React.createElement("td", {onClick: this.handleClick}, "remove")
 			)
 		)
 	}
@@ -159,7 +166,7 @@ var RatesListItem = React.createClass({displayName: "RatesListItem",
 module.exports = RatesListItem;
 },{}],6:[function(require,module,exports){
 
-var SymbolsListItem = require('./symbolslistitem');
+var SymbolsListDefaultItem = require('./symbolslistdefaultitem');
 
 var SymbolsList = React.createClass({displayName: "SymbolsList",
 	getInitialState: function(){
@@ -208,7 +215,7 @@ var SymbolsList = React.createClass({displayName: "SymbolsList",
 		for(;i<defaultSymbols.length;i++){
 			if(defaultSymbols[i].name===name){
 				defaultSymbols[i].enabled = !defaultSymbols[i].enabled;
-				this.props.onSymbolClick(name, defaultSymbols[i].enabled);
+				this.props.onSymbolClick(name);
 				break;
 			}
 		}
@@ -220,13 +227,13 @@ var SymbolsList = React.createClass({displayName: "SymbolsList",
 			defaultSymbols = this.state.defaultSymbols;
 
 		for(;i<defaultSymbols.length;i++){
-			symbols.push(React.createElement(SymbolsListItem, {name: defaultSymbols[i].name, enabled: defaultSymbols[i].enabled, onSymbolClick: this.handleSymbolClick}))
+			symbols.push(React.createElement(SymbolsListDefaultItem, {name: defaultSymbols[i].name, enabled: defaultSymbols[i].enabled, onSymbolClick: this.handleSymbolClick}))
 		}
 		
 		return(
 			React.createElement("div", {className: "symbolsList"}, 
 				React.createElement("h3", null, "Symbols"), 
-				React.createElement("ul", null, 
+				React.createElement("table", null, 
 					symbols
 				)
 			)
@@ -235,19 +242,20 @@ var SymbolsList = React.createClass({displayName: "SymbolsList",
 });
 
 module.exports = SymbolsList;
-},{"./symbolslistitem":7}],7:[function(require,module,exports){
-var SymbolsListItem = React.createClass({displayName: "SymbolsListItem",
+},{"./symbolslistdefaultitem":7}],7:[function(require,module,exports){
+var SymbolsListDefaultItem = React.createClass({displayName: "SymbolsListDefaultItem",
 	handleClick:function(){
 		this.props.onSymbolClick(this.props.name);
 	},
 	render: function(){
 		return(
-			React.createElement("li", {className: "symbolItem"}, 
-				React.createElement("span", null, this.props.name), " ", !this.props.enabled ? React.createElement("span", {onClick: this.handleClick}, "add"): ''
+			React.createElement("tr", {className: "symbolItem"}, 
+				React.createElement("td", null, this.props.name), 
+				React.createElement("td", null, !this.props.enabled ? React.createElement("span", {onClick: this.handleClick}, "add"): '')
 			)
 		)
 	}
 });
 
-module.exports = SymbolsListItem;
+module.exports = SymbolsListDefaultItem;
 },{}]},{},[1]);

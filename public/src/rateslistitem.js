@@ -4,10 +4,12 @@ var RatesListItem = React.createClass({
 	},
 	render: function(){
 		return(
-			<li className="rateItem">
-				<span>{this.props.name}</span> <span>{this.props.ask}</span> <span>{this.props.bid} </span>
-				<span onClick={this.handleClick}>remove</span>
-			</li>
+			<tr className="rateItem">
+				<td>{this.props.name}</td>
+				<td>{this.props.ask}</td>
+				<td>{this.props.bid}</td>
+				<td onClick={this.handleClick}>remove</td>
+			</tr>
 		)
 	}
 });

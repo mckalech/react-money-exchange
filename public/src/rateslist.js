@@ -57,9 +57,12 @@ var RatesList = React.createClass({
 		return(
 			<div className="ratesList">
 				<h3>Rates</h3>
-				<ul>
+				<table>
+					<tr>
+						<th>Symbol</th><th>Ask</th><th>Bid</th><th></th>
+					</tr>
 					{rates} 
-				</ul>
+				</table>
 			</div>
 		);
 	}
