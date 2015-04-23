@@ -1,0 +1,13 @@
+.DS_Store
+
+# Exclude node modules
+node_modules/
+
+# sass cache
+.sass-cache/
+
+.module-cache/
+
+*.sublime-project
+*.sublime-workspace
+.sublime-grunt.cache
