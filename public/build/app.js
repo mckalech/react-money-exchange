@@ -153,7 +153,6 @@ module.exports = RatesList;
 },{"./rateslistitem":5}],5:[function(require,module,exports){
 var RatesListItem = React.createClass({displayName: "RatesListItem",
 	handleClick:function(e){
-		$(e.target).closest('tr').hide();
 		this.props.onRemoveClick(this.props.name);
 	},
 	render: function(){

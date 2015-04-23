@@ -1,6 +1,5 @@
 var RatesListItem = React.createClass({
 	handleClick:function(e){
-		$(e.target).closest('tr').hide();
 		this.props.onRemoveClick(this.props.name);
 	},
 	render: function(){
