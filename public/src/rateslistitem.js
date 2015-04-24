@@ -21,7 +21,7 @@ var RatesListItem = React.createClass({
 				<td>{this.props.name}</td>
 				<td>{this.props.ask}</td>
 				<td>{this.props.bid}</td>
-				<td><span className="btn" onClick={this.handleClick}>remove</span></td>
+				<td><span className="btn" onClick={this.handleClick}>Remove</span></td>
 			</tr>
 		)
 	}

@@ -57,7 +57,7 @@ var RatesList = React.createClass({
 
 		return(
 			<div className="ratesList">
-				<h3>Rates</h3>
+				<h2>Rates</h2>
 				<table>
 					<tr>
 						<th>Symbol</th><th>Ask</th><th>Bid</th><th></th>

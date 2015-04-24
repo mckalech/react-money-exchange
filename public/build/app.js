@@ -109,14 +109,16 @@ var ChangeTime = React.createClass({displayName: "ChangeTime",
 	render: function(){
 		return(
 			React.createElement("div", {className: "changeTime"}, 
-				React.createElement("h3", null, "Settings"), 
-				React.createElement("span", null, "Data refresh period"), 
-				React.createElement("select", {onChange: this.handlePeriodChange}, 
-					React.createElement("option", {value: "1000"}, "1 sec"), 
-					React.createElement("option", {value: "2000"}, "2 sec"), 
-					React.createElement("option", {value: "3000"}, "3 sec"), 
-					React.createElement("option", {value: "4000"}, "4 sec"), 
-					React.createElement("option", {selected: true, value: "10000"}, "10 sec")
+				React.createElement("h2", null, "Settings"), 
+				React.createElement("div", null, 
+					React.createElement("span", null, "Data refresh period:"), 
+					React.createElement("select", {onChange: this.handlePeriodChange}, 
+						React.createElement("option", {value: "1000"}, "1 sec"), 
+						React.createElement("option", {value: "2000"}, "2 sec"), 
+						React.createElement("option", {value: "3000"}, "3 sec"), 
+						React.createElement("option", {value: "4000"}, "4 sec"), 
+						React.createElement("option", {selected: true, value: "10000"}, "10 sec")
+					)
 				)
 			)
 		);
@@ -184,7 +186,7 @@ var RatesList = React.createClass({displayName: "RatesList",
 
 		return(
 			React.createElement("div", {className: "ratesList"}, 
-				React.createElement("h3", null, "Rates"), 
+				React.createElement("h2", null, "Rates"), 
 				React.createElement("table", null, 
 					React.createElement("tr", null, 
 						React.createElement("th", null, "Symbol"), React.createElement("th", null, "Ask"), React.createElement("th", null, "Bid"), React.createElement("th", null)
@@ -221,7 +223,7 @@ var RatesListItem = React.createClass({displayName: "RatesListItem",
 				React.createElement("td", null, this.props.name), 
 				React.createElement("td", null, this.props.ask), 
 				React.createElement("td", null, this.props.bid), 
-				React.createElement("td", null, React.createElement("span", {className: "btn", onClick: this.handleClick}, "remove"))
+				React.createElement("td", null, React.createElement("span", {className: "btn", onClick: this.handleClick}, "Remove"))
 			)
 		)
 	}
@@ -300,7 +302,7 @@ var SymbolsList = React.createClass({displayName: "SymbolsList",
 		
 		return(
 			React.createElement("div", {className: "symbolsList"}, 
-				React.createElement("h3", null, "Symbols"), 
+				React.createElement("h2", null, "Symbols"), 
 				React.createElement("table", null, 
 					symbols
 				)

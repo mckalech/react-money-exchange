@@ -9,6 +9,24 @@ body{
 }
 h1{
 	text-align: center;
+	font-size: 33px;
+}
+h2{
+	font-size: 26px;
+	margin: 15px 0;
+}
+.changeTime{
+	float: left;
+	width: 45%;
+	div{
+		padding: 8px 25px;
+		background: #f9f9f9;
+		border-top: 1px solid #dfdfdf;
+		border-bottom: 1px solid #e5e5e5;
+	}
+	select{
+		float: right;
+	}
 }
 table{
 	 width: 100%;
@@ -30,26 +48,22 @@ table{
 }
 .symbolsList{
 	float: left;
-	width: 43%;
+	width: 45%;
 	clear: left;
 	td{
 
 		width: 50%;
 	}
 }
-.changeTime{
-	float: left;
-	width: 47%;
-}
 .ratesList{
 	float: right;
-	width: 47%;
+	width: 45%;
 	th{
 		width: 25%;
-		padding: 8px 15px;
+		padding: 8px 12px;
 	}
 	td{
-		padding: 8px 15px;
+		padding: 8px 12px;
 		text-align: center;
 	}
 	.rateItem{

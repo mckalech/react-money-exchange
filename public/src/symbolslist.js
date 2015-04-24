@@ -69,7 +69,7 @@ var SymbolsList = React.createClass({
 		
 		return(
 			<div className="symbolsList">
-				<h3>Symbols</h3>
+				<h2>Symbols</h2>
 				<table>
 					{symbols}
 				</table>
