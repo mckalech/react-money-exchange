@@ -6,7 +6,7 @@ var Box = React.createClass({
 	getInitialState: function(){
 		return {
 			period: 10000,
-			ratesPairs: [ 'EUR/USD']
+			ratesPairs: [ 'EURUSD']
 		};
 	},
 	componentDidMount: function(){

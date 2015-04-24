@@ -57,7 +57,7 @@ var Box = React.createClass({displayName: "Box",
 	getInitialState: function(){
 		return {
 			period: 10000,
-			ratesPairs: [ 'EUR/USD']
+			ratesPairs: [ 'EURUSD']
 		};
 	},
 	componentDidMount: function(){
@@ -241,15 +241,15 @@ var SymbolsList = React.createClass({displayName: "SymbolsList",
 		return{
 			defaultSymbols: [
 				{
-					name:'EUR/USD',
+					name:'EURUSD',
 					enabled:false
 				},
 				{
-					name:'USD/RUB',
+					name:'USDRUB',
 					enabled:false
 				},
 				{
-					name:'EUR/RUB',
+					name:'EURRUB',
 					enabled:false
 				}
 			]
@@ -333,24 +333,24 @@ var SymbolsListLastItem = React.createClass({displayName: "SymbolsListLastItem",
 	handleClick:function(e){
 		var $this = $(e.target),
 			$selects = $this.closest('tr').find('select'),
-			name=$selects.eq(0).val()+'/'+$selects.eq(1).val();
+			name=$selects.eq(0).val()+$selects.eq(1).val();
 		this.props.onSymbolClick(name);
 	},
 	render: function(){
 		return(
-			React.createElement("tr", {className: "symbolItem"}, 
+			React.createElement("tr", {className: "symbolItem symbolItem_last"}, 
 				React.createElement("td", null, 
 					React.createElement("select", null, 
-						React.createElement("option", {selected: true}, "EUR"), 
-						React.createElement("option", null, "USD"), 
-						React.createElement("option", null, "GBP"), 
-						React.createElement("option", null, "RUB")
+						React.createElement("option", {value: "EUR"}, "Euro"), 
+						React.createElement("option", {value: "USD"}, "US Dollar"), 
+						React.createElement("option", {value: "GBP", selected: true}, "GB Pound"), 
+						React.createElement("option", {value: "RUB"}, "Ruble")
 					), 
 					React.createElement("select", null, 
-						React.createElement("option", null, "EUR"), 
-						React.createElement("option", {selected: true}, "USD"), 
-						React.createElement("option", null, "GBP"), 
-						React.createElement("option", null, "RUB")
+						React.createElement("option", {value: "EUR"}, "Euro"), 
+						React.createElement("option", {value: "USD", selected: true}, "US Dollar"), 
+						React.createElement("option", {value: "GBP"}, "GB Pound"), 
+						React.createElement("option", {value: "RUB"}, "Ruble")
 					)
 				), 
 				React.createElement("td", null, !this.props.enabled ? React.createElement("span", {className: "btn", onClick: this.handleClick}, "Add"): '')

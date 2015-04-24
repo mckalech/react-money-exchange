@@ -8,15 +8,15 @@ var SymbolsList = React.createClass({
 		return{
 			defaultSymbols: [
 				{
-					name:'EUR/USD',
+					name:'EURUSD',
 					enabled:false
 				},
 				{
-					name:'USD/RUB',
+					name:'USDRUB',
 					enabled:false
 				},
 				{
-					name:'EUR/RUB',
+					name:'EURRUB',
 					enabled:false
 				}
 			]

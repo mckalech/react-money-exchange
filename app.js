@@ -17,7 +17,7 @@ app.get('/bids', function(req, res) {
 		i=0,
 		queryString = "";
 		for(;i<pairs.length;i++){
-			queryString+=pairs[i].replace('/', '');
+			queryString+=pairs[i]
 			queryString+=','
 		}
 		//queryString = queryString.slice(0,-1);
@@ -31,7 +31,7 @@ app.get('/bids', function(req, res) {
 				console.log(results);
 				for(i=0;i<results.length-1;i++){
 					newPairs.push({
-						name: results[i].Name,
+						name: results[i].Name.replace('/', ''),
 						ask: results[i].Ask,
 						bid:results[i].Bid
 					});
