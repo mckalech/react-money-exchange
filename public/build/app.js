@@ -52,12 +52,13 @@ React.render(React.createElement(Box, null), $('#content').get(0))
 var SymbolsList = require('./symbolslist');
 var RatesList = require('./rateslist');
 var ChangeTime = require('./changetime');
+var Storage = require('./utils');
 
 var Box = React.createClass({displayName: "Box",
 	getInitialState: function(){
 		return {
-			period: 10000,
-			ratesPairs: [ 'EURUSD']
+			period: Storage.get('period') || 10000,
+			ratesPairs: Storage.get('initialPairs') || []
 		};
 	},
 	componentDidMount: function(){
@@ -75,6 +76,7 @@ var Box = React.createClass({displayName: "Box",
 		if(pairs.indexOf(name)<0){
 			pairs = pairs.concat([name]);
 			this.setState({ratesPairs: pairs});
+			Storage.set('initialPairs', pairs);
 		}else{
 			alert('This pair is already in the list');
 		}
@@ -84,15 +86,17 @@ var Box = React.createClass({displayName: "Box",
 		ind = pairs.indexOf(name);
 		pairs.splice(ind, 1);
 		this.setState({ratesPairs: pairs});
+		Storage.set('initialPairs', pairs);
 	},
 	handlePeriodChange:function(period){
 		this.setState({period: period});
+		Storage.set('period', period);
 	},
 	render : function(){
 		return (
 			React.createElement("div", {className: "exchangeBox"}, 
 				React.createElement("h1", null, "Realtime Exchange Rates"), 
-				React.createElement(ChangeTime, {onPeriodChange: this.handlePeriodChange}), 
+				React.createElement(ChangeTime, {period: this.state.period, onPeriodChange: this.handlePeriodChange}), 
 				React.createElement(RatesList, {period: this.state.period, ratesPairs: this.state.ratesPairs, onRemoveClick: this.handleRemoveClick}), 
 				React.createElement(SymbolsList, {ratesPairs: this.state.ratesPairs, onSymbolClick: this.handleSymbolClick}), 
 				React.createElement("div", {className: "clear"})
@@ -101,7 +105,7 @@ var Box = React.createClass({displayName: "Box",
 	}
 });
 module.exports = Box;
-},{"./changetime":4,"./rateslist":5,"./symbolslist":7}],4:[function(require,module,exports){
+},{"./changetime":4,"./rateslist":5,"./symbolslist":7,"./utils":10}],4:[function(require,module,exports){
 var ChangeTime = React.createClass({displayName: "ChangeTime",
 	handlePeriodChange:function(e){
 		this.props.onPeriodChange(e.target.value);
@@ -112,12 +116,12 @@ var ChangeTime = React.createClass({displayName: "ChangeTime",
 				React.createElement("h2", null, "Settings"), 
 				React.createElement("div", null, 
 					React.createElement("span", null, "Data refresh period:"), 
-					React.createElement("select", {onChange: this.handlePeriodChange}, 
+					React.createElement("select", {value: this.props.period, onChange: this.handlePeriodChange}, 
 						React.createElement("option", {value: "1000"}, "1 sec"), 
 						React.createElement("option", {value: "2000"}, "2 sec"), 
 						React.createElement("option", {value: "3000"}, "3 sec"), 
 						React.createElement("option", {value: "4000"}, "4 sec"), 
-						React.createElement("option", {selected: true, value: "10000"}, "10 sec")
+						React.createElement("option", {value: "10000"}, "10 sec")
 					)
 				)
 			)
@@ -360,4 +364,17 @@ var SymbolsListLastItem = React.createClass({displayName: "SymbolsListLastItem",
 });
 
 module.exports = SymbolsListLastItem;
+},{}],10:[function(require,module,exports){
+module.exports = {
+	get:function(name) {
+		var data;
+		if (localStorage[name]){
+			data = JSON.parse(localStorage[name]);
+		}
+		return data;
+	},
+	set:function(name, props){
+		localStorage[name]=JSON.stringify(props);
+	}
+}
 },{}]},{},[2]);
