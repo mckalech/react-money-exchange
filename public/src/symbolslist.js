@@ -5,25 +5,24 @@ var SymbolsListLastItem = require('./symbolslistlastitem');
 
 var SymbolsList = React.createClass({
 	getInitialState: function(){
+		
 		return{
-			defaultSymbols: [
-				{
-					name:'EURUSD',
-					enabled:false
-				},
-				{
-					name:'USDRUB',
-					enabled:false
-				},
-				{
-					name:'EURRUB',
-					enabled:false
-				}
-			]
+			defaultSymbols : []
 		}
 	},
 	componentDidMount: function(){
-		this.updateSymbols(this.props.ratesPairs)
+		var that = this;
+		$.ajax({
+			url:'/defaults',
+			dataType: "json",
+			type: 'GET',
+		}).always(function(res){
+			that.setState({
+				defaultSymbols: res
+			});
+			that.updateSymbols(that.props.ratesPairs)
+		});
+		
 	},
 	componentWillReceiveProps:function(props){
 		this.updateSymbols(props.ratesPairs)

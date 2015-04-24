@@ -44,6 +44,23 @@ app.get('/bids', function(req, res) {
 		res.setHeader('Content-Type', 'application/json');
 		res.send(newPairs);
 	}
-	
-	
+});
+
+app.get('/defaults', function(req, res) {
+	var defaultSymbols = [
+		{
+			name:'EURUSD',
+			enabled:false
+		},
+		{
+			name:'USDRUB',
+			enabled:false
+		},
+		{
+			name:'EURRUB',
+			enabled:false
+		}
+	];
+	res.setHeader('Content-Type', 'application/json');
+	res.send(defaultSymbols);
 });
