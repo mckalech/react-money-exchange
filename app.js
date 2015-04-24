@@ -20,31 +20,30 @@ app.get('/bids', function(req, res) {
 			queryString+=pairs[i].replace('/', '');
 			queryString+=','
 		}
-		queryString = queryString.slice(0,-1);
+		//queryString = queryString.slice(0,-1);
+
 		url = "http://query.yahooapis.com/v1/public/yql?q=select+*+from+yahoo.finance.xchange+where+pair+=+%22"+queryString+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
 
 		http.get(url,function(response){
 			response.setEncoding('utf8');
 			response.on('data', function(chunk){
 				results = JSON.parse(chunk).query.results.rate;
-				 // { id: 'USDEUR',
-				 //    Name: 'USD/EUR',
-				 //    Rate: '0.9323',
-				 //    Date: '4/22/2015',
-				 //    Time: '9:47pm',
-				 //    Ask: '0.9323',
-				 //    Bid: '0.9323' } ]
+				console.log(results);
+				for(i=0;i<results.length-1;i++){
+					newPairs.push({
+						name: results[i].Name,
+						ask: results[i].Ask,
+						bid:results[i].Bid
+					});
+				}
+				res.setHeader('Content-Type', 'application/json');
+				res.send(newPairs);
 			});		
 		})
-		for(i=0;i<pairs.length;i++){
-			newPairs.push({
-				name: pairs[i],
-				ask:Math.random().toFixed(3),
-				bid:Math.random().toFixed(3)
-			});
-		}
+	}else{
+		res.setHeader('Content-Type', 'application/json');
+		res.send(newPairs);
 	}
 	
-	res.setHeader('Content-Type', 'application/json');
-	res.send(newPairs);
+	
 });
