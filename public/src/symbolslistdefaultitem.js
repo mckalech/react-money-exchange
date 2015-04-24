@@ -6,7 +6,7 @@ var SymbolsListDefaultItem = React.createClass({
 		return(
 			<tr className="symbolItem">
 				<td>{this.props.name}</td> 
-				<td>{!this.props.enabled ? <span onClick={this.handleClick}>add</span>: ''}</td>
+				<td>{!this.props.enabled ? <span className="btn" onClick={this.handleClick}>Add</span>: <span className="btn btn_disabled">Add</span>}</td>
 			</tr>
 		)
 	}

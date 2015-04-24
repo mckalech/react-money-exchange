@@ -47,6 +47,7 @@ var RatesList = React.createClass({
 		for(;i<data.length;i++){
 			rates.push(
 				<RatesListItem 
+					key={data[i].name} 
 					name={data[i].name} 
 					ask={data[i].ask} 
 					bid={data[i].bid} 

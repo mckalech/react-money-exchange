@@ -1,8 +1,10 @@
 @import "mynormalize";
 @import "compass";
-
+body{
+	font-size: 14px;
+}
 .exchangeBox{
-	width: 700px;
+	width: 800px;
 	margin: 50px auto;
 }
 h1{
@@ -11,26 +13,27 @@ h1{
 table{
 	 width: 100%;
 	td{
-		
-		padding: 5px; 
+		padding: 8px 25px;
 		box-sizing:border-box;
 	}
 	tr{
+		box-sizing:border-box;
 		&:nth-child(odd){
-			background: #ccc;
-			border-top: 1px solid #999;
+			background: #f9f9f9;
+			border-top: 1px solid #dfdfdf;
 		}
 
 		&:nth-child(even){
-			border-top: 1px solid #aaa;
+			border-top: 1px solid #e5e5e5;
 		}
 	}
 }
 .symbolsList{
 	float: left;
-	width: 47%;
+	width: 43%;
 	clear: left;
 	td{
+
 		width: 50%;
 	}
 }
@@ -43,11 +46,39 @@ table{
 	width: 47%;
 	th{
 		width: 25%;
-		padding: 5px; 
-		box-sizing:border-box;
+		padding: 8px 15px;
 	}
 	td{
+		padding: 8px 15px;
 		text-align: center;
 	}
+	.rateItem{
+		&_disabled{
+			opacity: 0.5;
+		}
+	}
 	
+}
+
+.btn{
+	font-size: 12px;
+	float: right;
+	@include inline-block;
+	padding: 7px 12px;
+	background: #428ccb;
+	color:#fff;
+	cursor: pointer;
+	@include border-radius(5px);
+	border: 1px solid #367ebd;
+
+	&:hover{
+		background: #84b4db;
+		border-color:#7eadd5;
+	}
+
+	&_disabled{
+		border-color:#7eadd5;
+		background: #84b4db;
+		cursor: default;
+	}
 }

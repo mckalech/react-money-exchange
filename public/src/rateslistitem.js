@@ -1,14 +1,27 @@
+var classNames = require('classNames');
+
 var RatesListItem = React.createClass({
-	handleClick:function(e){
+	getInitialState: function(){
+		return{
+			loading: false
+		}
+	},
+	handleClick:function(){
 		this.props.onRemoveClick(this.props.name);
+		this.setState({loading:true})
 	},
 	render: function(){
+		
+		var classes = classNames({
+			'rateItem': true,
+			'rateItem_disabled': this.state.loading
+		});
 		return(
-			<tr className="rateItem">
+			<tr className={classes}>
 				<td>{this.props.name}</td>
 				<td>{this.props.ask}</td>
 				<td>{this.props.bid}</td>
-				<td onClick={this.handleClick}>remove</td>
+				<td><span className="btn" onClick={this.handleClick}>remove</span></td>
 			</tr>
 		)
 	}

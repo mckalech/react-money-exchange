@@ -1,8 +1,54 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*
+  Copyright (c) 2015 Jed Watson.
+  
+  Licensed under the MIT License (MIT), see
+  https://github.com/JedWatson/classnames/blob/master/LICENSE
+*/
+
+function classNames() {
+	var classes = '';
+	var arg;
+
+	for (var i = 0; i < arguments.length; i++) {
+		arg = arguments[i];
+		if (!arg) {
+			continue;
+		}
+
+		if ('string' === typeof arg || 'number' === typeof arg) {
+			classes += ' ' + arg;
+		} else if (Object.prototype.toString.call(arg) === '[object Array]') {
+			classes += ' ' + classNames.apply(null, arg);
+		} else if ('object' === typeof arg) {
+			for (var key in arg) {
+				if (!arg.hasOwnProperty(key) || !arg[key]) {
+					continue;
+				}
+				classes += ' ' + key;
+			}
+		}
+	}
+	return classes.substr(1);
+}
+
+// safely export classNames for node / browserify
+if (typeof module !== 'undefined' && module.exports) {
+	module.exports = classNames;
+}
+
+// safely export classNames for RequireJS
+if (typeof define !== 'undefined' && define.amd) {
+	define('classnames', [], function() {
+		return classNames;
+	});
+}
+
+},{}],2:[function(require,module,exports){
 Box = require('./box');
 
 React.render(React.createElement(Box, null), $('#content').get(0))
-},{"./box":2}],2:[function(require,module,exports){
+},{"./box":3}],3:[function(require,module,exports){
 var SymbolsList = require('./symbolslist');
 var RatesList = require('./rateslist');
 var ChangeTime = require('./changetime');
@@ -55,7 +101,7 @@ var Box = React.createClass({displayName: "Box",
 	}
 });
 module.exports = Box;
-},{"./changetime":3,"./rateslist":4,"./symbolslist":6}],3:[function(require,module,exports){
+},{"./changetime":4,"./rateslist":5,"./symbolslist":7}],4:[function(require,module,exports){
 var ChangeTime = React.createClass({displayName: "ChangeTime",
 	handlePeriodChange:function(e){
 		this.props.onPeriodChange(e.target.value);
@@ -78,7 +124,7 @@ var ChangeTime = React.createClass({displayName: "ChangeTime",
 });
 
 module.exports = ChangeTime;
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 
 var RatesListItem = require('./rateslistitem');
 
@@ -128,6 +174,7 @@ var RatesList = React.createClass({displayName: "RatesList",
 		for(;i<data.length;i++){
 			rates.push(
 				React.createElement(RatesListItem, {
+					key: data[i].name, 
 					name: data[i].name, 
 					ask: data[i].ask, 
 					bid: data[i].bid, 
@@ -150,25 +197,38 @@ var RatesList = React.createClass({displayName: "RatesList",
 });
 
 module.exports = RatesList;
-},{"./rateslistitem":5}],5:[function(require,module,exports){
+},{"./rateslistitem":6}],6:[function(require,module,exports){
+var classNames = require('classNames');
+
 var RatesListItem = React.createClass({displayName: "RatesListItem",
-	handleClick:function(e){
+	getInitialState: function(){
+		return{
+			loading: false
+		}
+	},
+	handleClick:function(){
 		this.props.onRemoveClick(this.props.name);
+		this.setState({loading:true})
 	},
 	render: function(){
+		
+		var classes = classNames({
+			'rateItem': true,
+			'rateItem_disabled': this.state.loading
+		});
 		return(
-			React.createElement("tr", {className: "rateItem"}, 
+			React.createElement("tr", {className: classes}, 
 				React.createElement("td", null, this.props.name), 
 				React.createElement("td", null, this.props.ask), 
 				React.createElement("td", null, this.props.bid), 
-				React.createElement("td", {onClick: this.handleClick}, "remove")
+				React.createElement("td", null, React.createElement("span", {className: "btn", onClick: this.handleClick}, "remove"))
 			)
 		)
 	}
 });
 
 module.exports = RatesListItem;
-},{}],6:[function(require,module,exports){
+},{"classNames":1}],7:[function(require,module,exports){
 
 var SymbolsListDefaultItem = require('./symbolslistdefaultitem');
 
@@ -250,7 +310,7 @@ var SymbolsList = React.createClass({displayName: "SymbolsList",
 });
 
 module.exports = SymbolsList;
-},{"./symbolslistdefaultitem":7,"./symbolslistlastitem":8}],7:[function(require,module,exports){
+},{"./symbolslistdefaultitem":8,"./symbolslistlastitem":9}],8:[function(require,module,exports){
 var SymbolsListDefaultItem = React.createClass({displayName: "SymbolsListDefaultItem",
 	handleClick:function(){
 		this.props.onSymbolClick(this.props.name);
@@ -259,14 +319,14 @@ var SymbolsListDefaultItem = React.createClass({displayName: "SymbolsListDefault
 		return(
 			React.createElement("tr", {className: "symbolItem"}, 
 				React.createElement("td", null, this.props.name), 
-				React.createElement("td", null, !this.props.enabled ? React.createElement("span", {onClick: this.handleClick}, "add"): '')
+				React.createElement("td", null, !this.props.enabled ? React.createElement("span", {className: "btn", onClick: this.handleClick}, "Add"): React.createElement("span", {className: "btn btn_disabled"}, "Add"))
 			)
 		)
 	}
 });
 
 module.exports = SymbolsListDefaultItem;
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 var SymbolsListLastItem = React.createClass({displayName: "SymbolsListLastItem",
 	handleClick:function(e){
 		var $this = $(e.target),
@@ -291,11 +351,11 @@ var SymbolsListLastItem = React.createClass({displayName: "SymbolsListLastItem",
 						React.createElement("option", null, "RUB")
 					)
 				), 
-				React.createElement("td", null, !this.props.enabled ? React.createElement("span", {onClick: this.handleClick}, "add"): '')
+				React.createElement("td", null, !this.props.enabled ? React.createElement("span", {className: "btn", onClick: this.handleClick}, "Add"): '')
 			)
 		)
 	}
 });
 
 module.exports = SymbolsListLastItem;
-},{}]},{},[1]);
+},{}]},{},[2]);

@@ -22,7 +22,7 @@ var SymbolsListLastItem = React.createClass({
 						<option>RUB</option>
 					</select>
 				</td> 
-				<td>{!this.props.enabled ? <span onClick={this.handleClick}>add</span>: ''}</td>
+				<td>{!this.props.enabled ? <span className="btn" onClick={this.handleClick}>Add</span>: ''}</td>
 			</tr>
 		)
 	}
