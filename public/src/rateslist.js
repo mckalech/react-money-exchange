@@ -52,7 +52,9 @@ var RatesList = React.createClass({
 		var i = 0, 
 			rates = [], 
 			that = this,
-			data = this.state.pairs;
+			data = this.state.pairs,
+			time,
+			timeString;
 
 		rates = data.map(function(item, i){
 			return(
@@ -64,6 +66,8 @@ var RatesList = React.createClass({
 					onRemoveClick={that.handleRemoveClick} />
 			);
 		});
+		time = new Date();
+		timeString = time.toLocaleTimeString();
 
 		return(
 			<div className="ratesList">
@@ -74,6 +78,7 @@ var RatesList = React.createClass({
 					</tr>
 					{rates} 
 				</table>
+				{/*<span>Last update:{timeString}</span>*/}
 			</div>
 		);
 	}

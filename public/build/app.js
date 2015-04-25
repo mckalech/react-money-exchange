@@ -185,7 +185,9 @@ var RatesList = React.createClass({displayName: "RatesList",
 		var i = 0, 
 			rates = [], 
 			that = this,
-			data = this.state.pairs;
+			data = this.state.pairs,
+			time,
+			timeString;
 
 		rates = data.map(function(item, i){
 			return(
@@ -197,6 +199,8 @@ var RatesList = React.createClass({displayName: "RatesList",
 					onRemoveClick: that.handleRemoveClick})
 			);
 		});
+		time = new Date();
+		timeString = time.toLocaleTimeString();
 
 		return(
 			React.createElement("div", {className: "ratesList"}, 
@@ -207,6 +211,7 @@ var RatesList = React.createClass({displayName: "RatesList",
 					), 
 					rates
 				)
+				/*<span>Last update:{timeString}</span>*/
 			)
 		);
 	}
