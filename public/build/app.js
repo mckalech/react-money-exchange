@@ -171,6 +171,16 @@ var RatesList = React.createClass({displayName: "RatesList",
 			});
 		});
 	},
+	handleRemoveClick: function(name){
+		var pairs = this.state.pairs
+		newPairs = [];
+
+		newPairs = pairs.filter(function(pair){
+			return pair.name != name;
+		});
+		this.setState({pairs: newPairs});
+		this.props.onRemoveClick(name);
+	},
 	render: function(){
 		var i = 0, 
 			rates = [], 
@@ -184,7 +194,7 @@ var RatesList = React.createClass({displayName: "RatesList",
 					name: item.name, 
 					ask: item.ask, 
 					bid: item.bid, 
-					onRemoveClick: that.props.onRemoveClick})
+					onRemoveClick: that.handleRemoveClick})
 			);
 		});
 
