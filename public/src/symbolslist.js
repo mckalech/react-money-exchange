@@ -31,13 +31,14 @@ var SymbolsList = React.createClass({
 		var i = 0,
 			defaultSymbols = this.state.defaultSymbols;
 
-		for(;i<defaultSymbols.length;i++){
-			if(pairs.indexOf(defaultSymbols[i].name) < 0){
-				defaultSymbols[i].enabled = false;
+		defaultSymbols.forEach(function(item,ind){
+			if(pairs.indexOf(item.name) < 0){
+				item.enabled = false;
 			}else{
-				defaultSymbols[i].enabled = true;
+				item.enabled = true;
 			}
-		}
+		});
+			
 		this.setState({
 			defaultSymbols: defaultSymbols
 		});
