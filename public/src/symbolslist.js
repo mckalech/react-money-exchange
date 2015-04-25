@@ -58,12 +58,18 @@ var SymbolsList = React.createClass({
 	},
 	render: function(){
 		var i = 0, 
+			that = this,
 			symbols = [], 
 			defaultSymbols = this.state.defaultSymbols;
 
-		for(;i<defaultSymbols.length;i++){
-			symbols.push(<SymbolsListDefaultItem name={defaultSymbols[i].name} enabled={defaultSymbols[i].enabled} onSymbolClick={this.handleSymbolClick}/>)
-		}
+		symbols = defaultSymbols.map(function(item, i){
+			return(
+				<SymbolsListDefaultItem
+					name={item.name} 
+					enabled={item.enabled} 
+					onSymbolClick={that.handleSymbolClick}/>
+			);
+		});
 		symbols.push(<SymbolsListLastItem enabled={false} onSymbolClick={this.handleSymbolClick}/>)
 		
 		return(

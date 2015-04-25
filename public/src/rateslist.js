@@ -41,19 +41,19 @@ var RatesList = React.createClass({
 	render: function(){
 		var i = 0, 
 			rates = [], 
-			//data = this.props.data;
+			that = this,
 			data = this.state.pairs;
 
-		for(;i<data.length;i++){
-			rates.push(
+		rates = data.map(function(item, i){
+			return(
 				<RatesListItem 
-					key={data[i].name} 
-					name={data[i].name} 
-					ask={data[i].ask} 
-					bid={data[i].bid} 
-					onRemoveClick={this.props.onRemoveClick} />
-			)
-		}
+					key={item.name} 
+					name={item.name} 
+					ask={item.ask} 
+					bid={item.bid} 
+					onRemoveClick={that.props.onRemoveClick} />
+			);
+		});
 
 		return(
 			<div className="ratesList">

@@ -47,7 +47,7 @@ if (typeof define !== 'undefined' && define.amd) {
 },{}],2:[function(require,module,exports){
 Box = require('./box');
 
-React.render(React.createElement(Box, null), $('#content').get(0))
+React.render(React.createElement(Box, null), document.getElementById('content'));
 },{"./box":3}],3:[function(require,module,exports){
 var SymbolsList = require('./symbolslist');
 var RatesList = require('./rateslist');
@@ -174,19 +174,19 @@ var RatesList = React.createClass({displayName: "RatesList",
 	render: function(){
 		var i = 0, 
 			rates = [], 
-			//data = this.props.data;
+			that = this,
 			data = this.state.pairs;
 
-		for(;i<data.length;i++){
-			rates.push(
+		rates = data.map(function(item, i){
+			return(
 				React.createElement(RatesListItem, {
-					key: data[i].name, 
-					name: data[i].name, 
-					ask: data[i].ask, 
-					bid: data[i].bid, 
-					onRemoveClick: this.props.onRemoveClick})
-			)
-		}
+					key: item.name, 
+					name: item.name, 
+					ask: item.ask, 
+					bid: item.bid, 
+					onRemoveClick: that.props.onRemoveClick})
+			);
+		});
 
 		return(
 			React.createElement("div", {className: "ratesList"}, 
@@ -295,12 +295,18 @@ var SymbolsList = React.createClass({displayName: "SymbolsList",
 	},
 	render: function(){
 		var i = 0, 
+			that = this,
 			symbols = [], 
 			defaultSymbols = this.state.defaultSymbols;
 
-		for(;i<defaultSymbols.length;i++){
-			symbols.push(React.createElement(SymbolsListDefaultItem, {name: defaultSymbols[i].name, enabled: defaultSymbols[i].enabled, onSymbolClick: this.handleSymbolClick}))
-		}
+		symbols = defaultSymbols.map(function(item, i){
+			return(
+				React.createElement(SymbolsListDefaultItem, {
+					name: item.name, 
+					enabled: item.enabled, 
+					onSymbolClick: that.handleSymbolClick})
+			);
+		});
 		symbols.push(React.createElement(SymbolsListLastItem, {enabled: false, onSymbolClick: this.handleSymbolClick}))
 		
 		return(
@@ -334,22 +340,20 @@ module.exports = SymbolsListDefaultItem;
 },{}],9:[function(require,module,exports){
 var SymbolsListLastItem = React.createClass({displayName: "SymbolsListLastItem",
 	handleClick:function(e){
-		var $this = $(e.target),
-			$selects = $this.closest('tr').find('select'),
-			name=$selects.eq(0).val()+$selects.eq(1).val();
+		var name=React.findDOMNode(this.refs.select_1).value+React.findDOMNode(this.refs.select_2).value;
 		this.props.onSymbolClick(name);
 	},
 	render: function(){
 		return(
 			React.createElement("tr", {className: "symbolItem symbolItem_last"}, 
 				React.createElement("td", null, 
-					React.createElement("select", null, 
+					React.createElement("select", {ref: "select_1"}, 
 						React.createElement("option", {value: "EUR"}, "Euro"), 
 						React.createElement("option", {value: "USD"}, "US Dollar"), 
 						React.createElement("option", {value: "GBP", selected: true}, "GB Pound"), 
 						React.createElement("option", {value: "RUB"}, "Ruble")
 					), 
-					React.createElement("select", null, 
+					React.createElement("select", {ref: "select_2"}, 
 						React.createElement("option", {value: "EUR"}, "Euro"), 
 						React.createElement("option", {value: "USD", selected: true}, "US Dollar"), 
 						React.createElement("option", {value: "GBP"}, "GB Pound"), 

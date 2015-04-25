@@ -1,3 +1,3 @@
 Box = require('./box');
 
-React.render(<Box />, $('#content').get(0))
+React.render(<Box />, document.getElementById('content'));
